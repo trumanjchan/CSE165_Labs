@@ -1,4 +1,4 @@
-# CSE165_Labs
+# Introduction to Object Oriented Programming
 
 Lab 1
 -
