@@ -40,5 +40,9 @@ public:
 	void advanceDown();
 	void advanceRight();
 
+	void mobAdvance();
+
+	//void fire(float, float);
+
 	~Sprite();
 };

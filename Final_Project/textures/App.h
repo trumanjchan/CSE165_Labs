@@ -13,6 +13,9 @@ class App: public GlutApp {
 Sprite* character;
 Sprite* princess;
 Sprite* monster;
+Sprite* mob1;
+Sprite* mob2;
+Sprite* mob3;
 
 unsigned int interval;
 
@@ -27,6 +30,12 @@ public:
 
     friend void idleTimer(int id);
     friend void playerTimer(int id);
+
+    friend void mobTimer1(int id);
+    friend void mobTimer2(int id);
+    friend void mobTimer3(int id);
+
+    void idle();
     
     ~App();
 };

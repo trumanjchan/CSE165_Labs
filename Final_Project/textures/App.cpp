@@ -1,13 +1,14 @@
 #include <iostream>
 #include "App.h"
+#include <deque>
 
+//using namespace std;
 static App* singleton;
 
 bool moveUp;
 bool moveLeft;
 bool moveDown;
 bool moveRight;
-
 
 void idleTimer(int id){
     singleton->princess->advance();
@@ -49,22 +50,84 @@ void playerTimer(int id){
     glutTimerFunc(56, playerTimer, id);
 }
 
+void mobTimer1(int id){
+    singleton->mob1->mobAdvance();
+    singleton->redraw();
+    if (singleton->mob1->isDone()){
+        singleton->mob1->reset();
+    }
+    glutTimerFunc(100, mobTimer1, id);
+}
+void mobTimer2(int id){
+    singleton->mob2->mobAdvance();
+    singleton->redraw();
+    if (singleton->mob2->isDone()){
+        singleton->mob2->reset();
+    }
+    glutTimerFunc(300, mobTimer2, id);
+}
+void mobTimer3(int id){
+    singleton->mob3->mobAdvance();
+    singleton->redraw();
+    if (singleton->mob3->isDone()){
+        singleton->mob3->reset();
+    }
+    glutTimerFunc(250, mobTimer3, id);
+}
+
 App::App(int argc, char** argv, int width, int height, const char* title): GlutApp(argc, argv, width, height, title){
 
     // Pushing different kinds of Shape in the collection
     princess = new Sprite("Character_Princess.png", 3,6,  1.4,0.15,  0.3,0.3);     // filename, rows,cols, x,y, w,h
     character = new Sprite("Character_Main.png", 3,6,  -1.65,0.15,  0.3,0.3);
-    monster = new Sprite("Slime_Green.png", 6,5,  -0.1,-0.1,  0.2,0.2);
+    mob1 = new Sprite("Slime_Green.png", 6,5,  0.7,-1.3,  0.5,0.5);
+    mob2 = new Sprite("Slime_Green.png", 6,5,  0.2,1.3,  0.5,0.5);
+    mob3 = new Sprite("Slime_Green.png", 6,5,  -0.3,-1.3,  0.5,0.5);
 
     singleton = this;
     idleTimer(1);      // idle moving princess
     playerTimer(2);    // moving character
+
+    mobTimer1(3);      //idle moving slimes
+    mobTimer2(4);
+    mobTimer3(5);
 } 
+
+void App::idle(){
+    if (mob1->getY() < 1.3) {
+        mob1->setY( mob1->getY() + 0.0000072 );  //go up if your Y value is less than 1.3
+    }
+    else {
+        if (mob1->getY() > 0) {
+            mob1->setY( mob1->getY() - 3 );     //once at the top, teleport to bottom
+        }
+    }
+
+    if (mob2->getY() > -1.3) {
+        mob2->setY( mob2->getY() - 0.000005 );     //go down  if your Y value is more than -1.3
+    }
+    else {
+        if (mob2->getY() < -1) {
+            mob2->setY( mob2->getY() + 3 );        //once at the bottom, teleport to top
+        }
+    }
+
+    if (mob3->getY() < 1.3) {
+        mob3->setY( mob3->getY() + 0.000006 );
+    }
+    else {
+        if (mob3->getY() > 0) {
+            mob3->setY( mob3->getY() - 3 );
+        }
+    }
+}
 
 void App::draw() const {
     princess->draw();
     character->draw();
-    monster->draw();
+    mob1->draw();
+    mob2->draw();
+    mob3->draw();
 }
 
 void App::keyDown(unsigned char key, float x, float y){
@@ -107,5 +170,8 @@ App::~App(){
     delete princess;
     delete character;
     delete monster;
+    delete mob1;
+    delete mob2;
+    delete mob3;
     std::cout << "Exiting..." << std::endl;
 }

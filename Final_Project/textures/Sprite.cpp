@@ -1,5 +1,8 @@
 #include "Sprite.h"
 #include <iostream>
+#include <deque>
+
+extern std::deque<Sprite *> projectile;
 
 Sprite::Sprite(const char *filename, int rows, int cols, float x, float y, float w, float h) : TexRect(filename, x, y, w, h){
     this->rows = rows;
@@ -160,6 +163,30 @@ void Sprite::advanceRight(){
         bottom = 1 - yinc * curr_row;
     }
 }
+
+
+void Sprite::mobAdvance() {
+    if (!done){
+        if (curr_col < cols){
+            curr_col++;
+        }
+        else{
+            if (curr_col = cols){
+                done = true;
+                curr_row = 5;
+                curr_col = 5;
+            }
+        }
+        left = xinc * (curr_col - 1);
+        right = xinc * curr_col;
+        top = 1 - yinc * (curr_row - 1);
+        bottom = 1 - yinc * curr_row;
+    }
+}
+
+// void Sprite::fire(float x, float y) {
+//     projectile.push_front( new Sprite("Character_Main.png", 3,6,  -1.65,0.15,  0.3,0.3) );     //creates new projectiles at location
+// }
 
 Sprite::~Sprite(){
 
