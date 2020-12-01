@@ -76,10 +76,10 @@ void TexRect::draw(float z) const {
     
     glBegin(GL_QUADS);
     glColor4f(1, 1, 1, 1);
-    glTexCoord2f(0, 0);
+    glTexCoord2f(0, 0);     //change x or y values of TexCoord2f's to flip vertically (x) or horizontally (y)
     glVertex3f(x, y - h, z);
     
-    glTexCoord2f(0, 1);
+    glTexCoord2f(0, 1);     //values can also be less than 1 in order to crop the image for a specific frame
     glVertex3f(x, y, z);
     
     glTexCoord2f(1, 1);
