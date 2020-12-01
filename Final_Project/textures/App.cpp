@@ -1,8 +1,6 @@
 #include <iostream>
 #include "App.h"
 
-//Using Sprite Sheets from: https://opengameart.org/content/pixel-characters-tiles-ai
-
 static App* singleton;
 
 bool moveUp;
@@ -35,11 +33,11 @@ void playerTimer(int id){
         }
     }
     if (moveDown) {
-        singleton->character->advanceDown();
-        singleton->redraw();
         if (singleton->character->isDone()){
             singleton->character->resetDown();
         }
+        singleton->character->advanceDown();
+        singleton->redraw();
     }
     if (moveRight) {
         singleton->character->advanceRight();
@@ -48,7 +46,7 @@ void playerTimer(int id){
             singleton->character->resetRight();
         }
     }
-    glutTimerFunc(150, playerTimer, id);
+    glutTimerFunc(56, playerTimer, id);
 }
 
 App::App(int argc, char** argv, int width, int height, const char* title): GlutApp(argc, argv, width, height, title){
@@ -72,15 +70,19 @@ void App::draw() const {
 void App::keyDown(unsigned char key, float x, float y){
     if (key == 'w'){
         moveUp = !moveUp;
+        character->setY( character->getY() + 0.03 );
     }
     if (key == 'a'){
         moveLeft = !moveLeft;
+        character->setX( character->getX() - 0.03 );
     }
     if (key == 's'){
         moveDown = !moveDown;
+        character->setY( character->getY() - 0.03 );
     }
     if (key == 'd'){
         moveRight = !moveRight;
+        character->setX( character->getX() + 0.03 );
     }
     if (key == 27){
         exit(0);
