@@ -16,6 +16,9 @@ Sprite* monster;
 Sprite* mob1;
 Sprite* mob2;
 Sprite* mob3;
+TexRect* weapon;
+TexRect* ammunition;
+TexRect* bg;
 
 unsigned int interval;
 

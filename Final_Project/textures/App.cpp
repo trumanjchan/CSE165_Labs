@@ -78,8 +78,11 @@ void mobTimer3(int id){
 App::App(int argc, char** argv, int width, int height, const char* title): GlutApp(argc, argv, width, height, title){
 
     // Pushing different kinds of Shape in the collection
-    princess = new Sprite("Character_Princess.png", 3,6,  1.4,0.15,  0.3,0.3);     // filename, rows,cols, x,y, w,h
-    character = new Sprite("Character_Main.png", 3,6,  -1.65,0.15,  0.3,0.3);
+    bg = new TexRect("park_bg.png", -1.7, 1, 3.5, 2);                              // filename, x, y, w, h
+    weapon = new TexRect("ak.png", -1.3, 0.05, 0.25, 0.125);
+    ammunition = new TexRect("bullet.png", -0.8, -0.2, 0.15, 0.045);
+    princess = new Sprite("Character_Princess.png", 3,6,  1.4,-0.4,  0.3,0.3);     // filename, rows,cols, x,y, w,h
+    character = new Sprite("Character_Main.png", 3,6,  -1.65,-0.3,  0.3,0.3);
     mob1 = new Sprite("Slime_Green.png", 6,5,  0.7,-1.3,  0.5,0.5);
     mob2 = new Sprite("Slime_Green.png", 6,5,  0.2,1.3,  0.5,0.5);
     mob3 = new Sprite("Slime_Green.png", 6,5,  -0.3,-1.3,  0.5,0.5);
@@ -123,6 +126,9 @@ void App::idle(){
 }
 
 void App::draw() const {
+    bg->drawBG();
+    weapon->draw();
+    ammunition->draw();
     princess->draw();
     character->draw();
     mob1->draw();
@@ -173,5 +179,8 @@ App::~App(){
     delete mob1;
     delete mob2;
     delete mob3;
+    delete weapon;
+    delete ammunition;
+    delete bg;
     std::cout << "Exiting..." << std::endl;
 }

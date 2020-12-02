@@ -92,3 +92,25 @@ void TexRect::draw(float z) const {
     
     glDisable(GL_TEXTURE_2D);
 }
+void TexRect::drawBG(float z) const {
+    glBindTexture( GL_TEXTURE_2D, texture_id );
+    glEnable(GL_TEXTURE_2D);
+    
+    glBegin(GL_QUADS);
+    glColor4f(1, 1, 1, 1);
+    glTexCoord2f(0, 0);     //change x or y values of TexCoord2f's to flip vertically (x) or horizontally (y)
+    glVertex3f(x, y - h, z);
+    
+    glTexCoord2f(0, 1);     //values can also be less than 1 in order to crop the image for a specific frame
+    glVertex3f(x, y, z);
+    
+    glTexCoord2f(0.56, 1);
+    glVertex3f(x+w, y, z);
+    
+    glTexCoord2f(0.56, 0);
+    glVertex3f(x+w, y - h, z);
+    
+    glEnd();
+    
+    glDisable(GL_TEXTURE_2D);
+}

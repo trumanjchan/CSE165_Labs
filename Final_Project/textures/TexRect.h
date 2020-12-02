@@ -14,6 +14,7 @@
 #include "SOIL.h"
 #endif
 
+//Background from: https://opengameart.org/content/2d-cartoon-backgrounds-random-town-locations
 
 class TexRect: public Rect {
 protected:
@@ -26,6 +27,7 @@ public:
     TexRect(const char*, float, float, float, float);
     
     void draw(float z=0) const;
+    void drawBG(float z=0) const;
 };
 
 #endif
