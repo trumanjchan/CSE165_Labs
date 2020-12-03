@@ -30,6 +30,8 @@ public:
     void drawBG(float z=0) const;
     void drawBullets() const;
 
+    bool contains(float, float) const;
+
 };
 
 #endif

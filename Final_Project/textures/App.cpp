@@ -9,6 +9,10 @@ bool moveUp;
 bool moveLeft;
 bool moveDown;
 bool moveRight;
+bool princessVisible;
+bool mob1Visible;
+bool mob2Visible;
+bool mob3Visible;
 
 void idleTimer(int id){
     singleton->princess->advance();
@@ -87,6 +91,11 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
     mob2 = new Sprite("Slime_Green.png", 6,5,  0.2,1.3,  0.5,0.5);
     mob3 = new Sprite("Slime_Green.png", 6,5,  -0.3,-1.3,  0.5,0.5);
 
+    mob1Visible = true;
+    mob2Visible = true;
+    mob3Visible = true;
+    princessVisible = true;
+
     singleton = this;
     idleTimer(1);      // idle moving princess
     playerTimer(2);    // moving character
@@ -148,18 +157,38 @@ void App::idle(){
     }
 }
 
-void App::draw() const {
+void App::draw() const{
     bg->drawBG();
     weapon->draw();
     ammunition->draw();
-    princess->draw();
     character->draw();
-    mob1->draw();
-    mob2->draw();
-    mob3->draw();
+    if (mob1Visible) {
+        mob1->draw();
+    }
+    if (mob2Visible) {
+        mob2->draw();
+    }
+    if (mob3Visible) {
+        mob3->draw();
+    }
+    if (princessVisible) {
+        princess->draw();
+    }
 
     for (int i = 0; i < projectile.size(); i++) {
         projectile[i]->draw();
+        if ( mob1->contains(projectile[i]->getX(), projectile[i]->getY()) ) {     //Detects whether bullet touched mob or princess. If yes, they "die"
+			mob1Visible = false;
+		}
+        if ( mob2->contains(projectile[i]->getX(), projectile[i]->getY()) ) {
+			mob2Visible = false;
+		}
+        if ( mob3->contains(projectile[i]->getX(), projectile[i]->getY()) ) {
+			mob3Visible = false;
+		}
+        if ( princess->contains(projectile[i]->getX(), projectile[i]->getY()) ) {
+			princessVisible = false;
+		}
     }
 }
 

@@ -123,3 +123,7 @@ void TexRect::drawBullets() const {
 		projectile[i]->draw();
 	}
 }
+
+bool TexRect::contains(float x, float y) const{
+	return x >= this->x && x <= this->x + w && y <= this->y && y >= this->y - h;
+}

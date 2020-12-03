@@ -23,7 +23,6 @@ TexRect* bg;
 unsigned int interval;
 
 public:
-
     App(int argc, char** argv, int width, int height, const char* title);
     
     void draw() const;

@@ -76,7 +76,11 @@ void Sprite::resetRight(){
 }
 
 void Sprite::fire(float x, float y) {
-    projectile.push_front( new Rect(x,y, 0.065,0.01, 0.66,0.66,0.66) );
+    projectile.push_front( new Rect(x,y, 0.065,0.01, 0.7,0.7,0.7) );
+}
+
+bool Sprite::contains(float x, float y) const{
+	return x >= this->x && x <= this->x + w && y <= this->y && y >= this->y - h;
 }
 
 void Sprite::advance(){     //Princess waiting to be rescued

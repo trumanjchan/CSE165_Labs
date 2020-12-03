@@ -44,5 +44,7 @@ public:
 
 	void fire(float x, float y);
 
+	bool contains(float, float) const;
+
 	~Sprite();
 };
