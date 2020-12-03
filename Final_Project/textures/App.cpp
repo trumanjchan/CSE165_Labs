@@ -211,24 +211,24 @@ void App::draw() const{
         canNowShoot = true;
     }
 
-    if (!gameOver) {
-        if (mob1Visible == false && mob2Visible == false && mob3Visible == false) {
+    if (!gameOver) {     //if game is not over,
+        if (mob1Visible == false && mob2Visible == false && mob3Visible == false) {     //and monsters are dead,
             if (princessVisible == true) {
-                if (character->contains(princess->getX(), princess->getY())) {
+                if (character->contains(princess->getX(), princess->getY() - 0.15) ) {     //if princess is alive, and rescued (stand on top of her), you win!
                     youWin = true;
                 }
             }
-            else {
+            else {     //otherwise if you for some reason want to kill her after winning, you will lose.
                 youWin = false;
                 gameOver = true;
             }
         }
-        else if ( character->contains(mob1->getX(), mob1->getY() ) || character->contains(mob2->getX(), mob2->getY() ) || character->contains(mob3->getX(), mob3->getY() ) ) {
+        else if ( character->contains(mob1->getX(), mob1->getY() ) || character->contains(mob2->getX(), mob2->getY() ) || character->contains(mob3->getX(), mob3->getY() ) || character->contains(mob3->getX() + 0.2, mob3->getY() ) ) {     //if you touch any slime, you lose.
             youWin = false;
             gameOver = true;
         }
         else {
-            if (princessVisible == false) {
+            if (princessVisible == false) {     //if you kill the princess you lose.
                 youWin = false;
                 gameOver = true;
             }
@@ -244,8 +244,9 @@ void App::draw() const{
         renderText("The game has ended. Try again!", -0.3, 0.42, GLUT_BITMAP_TIMES_ROMAN_24, 1,0,0);
     }
     else {
-        renderText("Save the princess without killing her, while staying alive!", -0.3, 0.42, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);     //Renders text in white
-        renderText("WASD to move, MOUSE1 to Shoot after picking up gun and ammo.", -0.465, 0.35, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
+        renderText("Save the princess without killing her, while staying alive!", -0.3, 0.55, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);     //Renders text in white
+        renderText("WASD to move, MOUSE1 to Shoot after picking up gun and ammo.", -0.465, 0.45, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
+        renderText("Kill all slimes before advancing forward.", -0.05, 0.35, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
     }
 
     for (int i = 0; i < projectile.size(); i++) {
