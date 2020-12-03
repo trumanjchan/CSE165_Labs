@@ -62,7 +62,6 @@ public:
     
     virtual void idle(){}
     
-    
     virtual ~GlutApp(){}
 };
 

@@ -193,5 +193,7 @@ void Sprite::mobAdvance() {
 }
 
 Sprite::~Sprite(){
-
+    for (int i = 0; i < projectile.size(); i++) {
+        delete projectile[i];
+    }
 }

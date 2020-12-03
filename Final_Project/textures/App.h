@@ -7,6 +7,7 @@
 #include "Circle.h"
 #include "TexRect.h"
 #include "Sprite.h"
+#include <string>
 
 class App: public GlutApp {
 
@@ -40,6 +41,8 @@ public:
 
     void idle();
     void leftMouseDown(float, float);
+
+    void renderText(std::string text, float x, float y, void* font, float r, float g, float b) const;
     
     ~App();
 };

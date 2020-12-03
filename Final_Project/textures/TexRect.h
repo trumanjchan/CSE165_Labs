@@ -31,7 +31,6 @@ public:
     void drawBullets() const;
 
     bool contains(float, float) const;
-
 };
 
 #endif

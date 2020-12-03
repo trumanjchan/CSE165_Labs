@@ -2,6 +2,7 @@
 #include "App.h"
 #include <deque>
 
+using namespace std;
 std::deque<Rect*> projectile;
 static App* singleton;
 
@@ -17,6 +18,9 @@ bool gunVisible;
 bool holdWeaponOut;
 bool ammoVisible;
 bool canNowShoot;
+
+bool youWin;
+bool gameOver = false;
 
 void idleTimer(int id){
     singleton->princess->advance();
@@ -207,11 +211,41 @@ void App::draw() const{
         canNowShoot = true;
     }
 
-    if ( character->contains(mob1->getX(), mob1->getY()) || character->contains(mob2->getX(), mob2->getY()) || character->contains(mob3->getX(), mob3->getY()) ) {     //If user touches any slime, you lose!!!
-        // Need renderText: "You Lose!"
+    if (!gameOver) {
+        if (mob1Visible == false && mob2Visible == false && mob3Visible == false) {
+            if (princessVisible == true) {
+                if (character->contains(princess->getX(), princess->getY())) {
+                    youWin = true;
+                }
+            }
+            else {
+                youWin = false;
+                gameOver = true;
+            }
+        }
+        else if ( character->contains(mob1->getX(), mob1->getY() ) || character->contains(mob2->getX(), mob2->getY() ) || character->contains(mob3->getX(), mob3->getY() ) ) {
+            youWin = false;
+            gameOver = true;
+        }
+        else {
+            if (princessVisible == false) {
+                youWin = false;
+                gameOver = true;
+            }
+        }
     }
-    if ( character->contains(princess->getX(), princess->getY()) ) {     //If user touches the princess, princess is rescued!!! You win!
-        // Need renderText: "You Win!"
+
+    if (youWin == true) {
+        renderText("YOU WIN!", character->getX(), character->getY(), GLUT_BITMAP_TIMES_ROMAN_24, 0,1,0);     //Renders text in green
+        renderText("The game has ended. Nice job!", -0.3, 0.42, GLUT_BITMAP_TIMES_ROMAN_24, 0,1,0);
+    }
+    else if (youWin == false && gameOver == true) {
+        renderText("You Lose!", character->getX(), character->getY(), GLUT_BITMAP_TIMES_ROMAN_24, 1,0,0);     //Renders text in red
+        renderText("The game has ended. Try again!", -0.3, 0.42, GLUT_BITMAP_TIMES_ROMAN_24, 1,0,0);
+    }
+    else {
+        renderText("Save the princess without killing her, while staying alive!", -0.3, 0.42, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);     //Renders text in white
+        renderText("WASD to move, MOUSE1 to Shoot after picking up gun and ammo.", -0.465, 0.35, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
     }
 
     for (int i = 0; i < projectile.size(); i++) {
@@ -225,10 +259,22 @@ void App::draw() const{
         if ( mob3->contains(projectile[i]->getX(), projectile[i]->getY()) ) {
 			mob3Visible = false;
 		}
-        if ( princess->contains(projectile[i]->getX(), projectile[i]->getY()) ) {
+        if ( princess->contains(projectile[i]->getX(), projectile[i]->getY()) ) {     //if princess was shot
 			princessVisible = false;
-            // Need renderText: "You lose!"
 		}
+    }
+}
+
+void App::renderText(std::string text, float x, float y, void* font, float r, float g, float b) const {
+	int width = 640, height = 640;
+
+    glColor3f(r, g, b);
+    float offset = 0;
+    for (int i = 0; i < text.length(); i++) {
+        glRasterPos3f(x+offset, y, 1);
+        glutBitmapCharacter(font, text[i]);
+        int w = glutBitmapWidth(font, text[i]);
+        offset += ((float)w / width)*2;
     }
 }
 
@@ -283,10 +329,12 @@ App::~App(){
     delete mob3;
     delete weapon;
     delete ammunition;
+    delete holdWeapon;
     delete bg;
 
     for (int i = 0; i < projectile.size(); i++) {
         delete projectile[i];
     }
+
     std::cout << "Exiting..." << std::endl;
 }
