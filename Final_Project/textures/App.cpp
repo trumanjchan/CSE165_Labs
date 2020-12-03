@@ -115,7 +115,7 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
 } 
 
 void App::idle(){
-    if (holdWeaponOut) {
+    if (holdWeaponOut) {     //Hold gun out and follow character after both weapon and ammo are picked up and shot for the first time.
         holdWeapon->setX( character->getX() + 0.09 );
         holdWeapon->setY( character->getY() - 0.165 );
     }
@@ -207,6 +207,13 @@ void App::draw() const{
         canNowShoot = true;
     }
 
+    if ( character->contains(mob1->getX(), mob1->getY()) || character->contains(mob2->getX(), mob2->getY()) || character->contains(mob3->getX(), mob3->getY()) ) {     //If user touches any slime, you lose!!!
+        // Need renderText: "You Lose!"
+    }
+    if ( character->contains(princess->getX(), princess->getY()) ) {     //If user touches the princess, princess is rescued!!! You win!
+        // Need renderText: "You Win!"
+    }
+
     for (int i = 0; i < projectile.size(); i++) {
         projectile[i]->draw();
         if ( mob1->contains(projectile[i]->getX(), projectile[i]->getY()) ) {     //Detects whether bullet touched mob or princess. If yes, they "die"
@@ -220,6 +227,7 @@ void App::draw() const{
 		}
         if ( princess->contains(projectile[i]->getX(), projectile[i]->getY()) ) {
 			princessVisible = false;
+            // Need renderText: "You lose!"
 		}
     }
 }
