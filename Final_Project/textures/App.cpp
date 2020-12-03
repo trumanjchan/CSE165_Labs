@@ -296,6 +296,20 @@ void App::keyDown(unsigned char key, float x, float y){
         moveRight = !moveRight;
         character->setX( character->getX() + 0.03 );
     }
+    if (key == ' ') {
+        gameOver = false;
+        character->setX(-1.65);
+        character->setY(-0.3);
+        mob1Visible = true;
+        mob2Visible = true;
+        mob3Visible = true;
+        princessVisible = true;
+        holdWeapon->setY(5);
+        holdWeaponOut = false;
+        gunVisible = true;
+        ammoVisible = true;
+        canNowShoot = false;
+    }
     if (key == 27){
         exit(0);
     }
