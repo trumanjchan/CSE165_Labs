@@ -28,6 +28,8 @@ public:
     
     void draw(float z=0) const;
     void drawBG(float z=0) const;
+    void drawBullets() const;
+
 };
 
 #endif

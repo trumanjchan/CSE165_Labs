@@ -2,7 +2,7 @@
 #include "App.h"
 #include <deque>
 
-//using namespace std;
+std::deque<Rect*> projectile;
 static App* singleton;
 
 bool moveUp;
@@ -80,7 +80,7 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
     // Pushing different kinds of Shape in the collection
     bg = new TexRect("park_bg.png", -1.7, 1, 3.5, 2);                              // filename, x, y, w, h
     weapon = new TexRect("ak.png", -1.3, 0.05, 0.25, 0.125);
-    ammunition = new TexRect("bullet.png", -0.8, -0.2, 0.15, 0.045);
+    ammunition = new TexRect("bullet.png", -0.8, -0.2, 0.095, 0.03);
     princess = new Sprite("Character_Princess.png", 3,6,  1.4,-0.4,  0.3,0.3);     // filename, rows,cols, x,y, w,h
     character = new Sprite("Character_Main.png", 3,6,  -1.65,-0.3,  0.3,0.3);
     mob1 = new Sprite("Slime_Green.png", 6,5,  0.7,-1.3,  0.5,0.5);
@@ -123,6 +123,29 @@ void App::idle(){
             mob3->setY( mob3->getY() - 3 );
         }
     }
+
+    for (int i = 0; i < projectile.size(); i++) {
+        projectile[i]->setX( projectile[i]->getX() + 0.00005 );     //Speed: continuously set projectile[i]'s x-coord to (x-coord += 0.00005)
+    }
+
+    if (character->getY() > (weapon->getY() + 0.1) ) {     //SET HORIZON BORDER ------------------------------------------------------------------
+        character->setY( character->getY() - 0.01);
+    }
+    if (character->getY() > (weapon->getY() - 0.2)) {     // Can't walk to the right unless on the road (can walk to get gun and ammo)
+        if (character->getX() > (weapon->getX() + 0.5) ) {
+            character->setX( character->getX() - 0.01);
+            character->setY( character->getY() - 0.01); 
+        }
+    }
+    if (character->getX() < (weapon->getX() - 0.5)) {     // Can't walk out of the map (left)
+        character->setX( character->getX() + 0.01);
+    }
+    if (character->getX() > (weapon->getX() + 2.8)) {       // Can't walk out of the map (right)
+        character->setX( character->getX() - 0.01);
+    }
+    if (character->getY() < (weapon->getY() - 0.8)) {     // Can't walk out of the map (bottom)
+        character->setY( character->getY() + 0.01);
+    }
 }
 
 void App::draw() const {
@@ -134,6 +157,10 @@ void App::draw() const {
     mob1->draw();
     mob2->draw();
     mob3->draw();
+
+    for (int i = 0; i < projectile.size(); i++) {
+        projectile[i]->draw();
+    }
 }
 
 void App::keyDown(unsigned char key, float x, float y){
@@ -171,6 +198,9 @@ void App::keyUp(unsigned char key, float x, float y){
         moveRight = !moveRight;
     }
 }
+void App::leftMouseDown(float x, float y){     //if left mouse down, FIRE!
+    character->fire( character->getX() + 0.3, character->getY() - 0.2 );     //Start projectiles in front of the weapon
+}
 
 App::~App(){
     delete princess;
@@ -182,5 +212,9 @@ App::~App(){
     delete weapon;
     delete ammunition;
     delete bg;
+
+    for (int i = 0; i < projectile.size(); i++) {
+        delete projectile[i];
+    }
     std::cout << "Exiting..." << std::endl;
 }

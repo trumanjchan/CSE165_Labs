@@ -1,5 +1,8 @@
 #include "TexRect.h"
 #include <iostream>
+#include <deque>
+
+extern std::deque<Rect*> projectile;
 
 TexRect::TexRect(const char* filename, float x=0, float y=0, float w=0.5, float h=0.5): Rect(x, y, w, h, 1.0f, 1.0f, 1.0f){
 
@@ -113,4 +116,10 @@ void TexRect::drawBG(float z) const {
     glEnd();
     
     glDisable(GL_TEXTURE_2D);
+}
+
+void TexRect::drawBullets() const {
+    for(int i = 0; i < projectile.size(); i++) {
+		projectile[i]->draw();
+	}
 }

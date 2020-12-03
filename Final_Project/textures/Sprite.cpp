@@ -2,7 +2,7 @@
 #include <iostream>
 #include <deque>
 
-extern std::deque<Sprite *> projectile;
+extern std::deque<Rect*> projectile;
 
 Sprite::Sprite(const char *filename, int rows, int cols, float x, float y, float w, float h) : TexRect(filename, x, y, w, h){
     this->rows = rows;
@@ -73,6 +73,10 @@ void Sprite::resetRight(){
     curr_row = 1;
     curr_col = 1;
     done = false;
+}
+
+void Sprite::fire(float x, float y) {
+    projectile.push_front( new Rect(x,y, 0.065,0.01, 0.66,0.66,0.66) );
 }
 
 void Sprite::advance(){     //Princess waiting to be rescued
@@ -183,10 +187,6 @@ void Sprite::mobAdvance() {
         bottom = 1 - yinc * curr_row;
     }
 }
-
-// void Sprite::fire(float x, float y) {
-//     projectile.push_front( new Sprite("Character_Main.png", 3,6,  -1.65,0.15,  0.3,0.3) );     //creates new projectiles at location
-// }
 
 Sprite::~Sprite(){
 

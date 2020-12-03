@@ -39,6 +39,7 @@ public:
     friend void mobTimer3(int id);
 
     void idle();
+    void leftMouseDown(float, float);
     
     ~App();
 };

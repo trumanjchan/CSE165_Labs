@@ -42,7 +42,7 @@ public:
 
 	void mobAdvance();
 
-	//void fire(float, float);
+	void fire(float x, float y);
 
 	~Sprite();
 };
