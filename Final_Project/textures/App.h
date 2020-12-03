@@ -17,6 +17,7 @@ Sprite* mob1;
 Sprite* mob2;
 Sprite* mob3;
 TexRect* weapon;
+TexRect* holdWeapon;
 TexRect* ammunition;
 TexRect* bg;
 

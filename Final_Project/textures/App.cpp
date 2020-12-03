@@ -13,6 +13,10 @@ bool princessVisible;
 bool mob1Visible;
 bool mob2Visible;
 bool mob3Visible;
+bool gunVisible;
+bool holdWeaponOut;
+bool ammoVisible;
+bool canNowShoot;
 
 void idleTimer(int id){
     singleton->princess->advance();
@@ -85,8 +89,9 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
     bg = new TexRect("park_bg.png", -1.7, 1, 3.5, 2);                              // filename, x, y, w, h
     weapon = new TexRect("ak.png", -1.3, 0.05, 0.25, 0.125);
     ammunition = new TexRect("bullet.png", -0.8, -0.2, 0.095, 0.03);
-    princess = new Sprite("Character_Princess.png", 3,6,  1.4,-0.4,  0.3,0.3);     // filename, rows,cols, x,y, w,h
     character = new Sprite("Character_Main.png", 3,6,  -1.65,-0.3,  0.3,0.3);
+    holdWeapon = new TexRect("ak.png", -3, 0, 0.25, 0.125);
+    princess = new Sprite("Character_Princess.png", 3,6,  1.4,-0.4,  0.3,0.3);     // filename, rows,cols, x,y, w,h
     mob1 = new Sprite("Slime_Green.png", 6,5,  0.7,-1.3,  0.5,0.5);
     mob2 = new Sprite("Slime_Green.png", 6,5,  0.2,1.3,  0.5,0.5);
     mob3 = new Sprite("Slime_Green.png", 6,5,  -0.3,-1.3,  0.5,0.5);
@@ -95,6 +100,10 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
     mob2Visible = true;
     mob3Visible = true;
     princessVisible = true;
+    gunVisible = true;
+    holdWeaponOut = false;     //Hold out gun only briefly when user clicks
+    ammoVisible = true;
+    canNowShoot = false;
 
     singleton = this;
     idleTimer(1);      // idle moving princess
@@ -106,6 +115,11 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
 } 
 
 void App::idle(){
+    if (holdWeaponOut) {
+        holdWeapon->setX( character->getX() + 0.09 );
+        holdWeapon->setY( character->getY() - 0.165 );
+    }
+
     if (mob1->getY() < 1.3) {
         mob1->setY( mob1->getY() + 0.0000072 );  //go up if your Y value is less than 1.3
     }
@@ -134,7 +148,7 @@ void App::idle(){
     }
 
     for (int i = 0; i < projectile.size(); i++) {
-        projectile[i]->setX( projectile[i]->getX() + 0.00005 );     //Speed: continuously set projectile[i]'s x-coord to (x-coord += 0.00005)
+        projectile[i]->setX( projectile[i]->getX() + 0.00003 );     //Speed: continuously set projectile[i]'s x-coord to (x-coord += 0.00005)
     }
 
     if (character->getY() > (weapon->getY() + 0.1) ) {     //SET HORIZON BORDER ------------------------------------------------------------------
@@ -159,9 +173,9 @@ void App::idle(){
 
 void App::draw() const{
     bg->drawBG();
-    weapon->draw();
-    ammunition->draw();
     character->draw();
+    holdWeapon->draw();
+
     if (mob1Visible) {
         mob1->draw();
     }
@@ -173,6 +187,24 @@ void App::draw() const{
     }
     if (princessVisible) {
         princess->draw();
+    }
+
+    if (gunVisible) {
+        weapon->draw();
+    }
+    if ( character->contains(weapon->getX(), weapon->getY()) ) {
+        gunVisible = false;
+    }
+
+    if (ammoVisible) {
+        ammunition->draw();
+    }
+    if ( character->contains(ammunition->getX(), ammunition->getY()) ) {
+        ammoVisible = false;
+    }
+
+    if (gunVisible == false && ammoVisible == false) {
+        canNowShoot = true;
     }
 
     for (int i = 0; i < projectile.size(); i++) {
@@ -228,7 +260,10 @@ void App::keyUp(unsigned char key, float x, float y){
     }
 }
 void App::leftMouseDown(float x, float y){     //if left mouse down, FIRE!
-    character->fire( character->getX() + 0.3, character->getY() - 0.2 );     //Start projectiles in front of the weapon
+    if (canNowShoot) {
+        holdWeaponOut = true;
+        character->fire( character->getX() + 0.3, character->getY() - 0.2 );     //Start projectiles in front of the weapon
+    }
 }
 
 App::~App(){
