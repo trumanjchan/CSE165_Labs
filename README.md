@@ -17,12 +17,12 @@ Lab 3
 
 Lab 4
 -
-A copy of MS Paint
+A copy of MS Paint.
 
 
 Lab 5
 -
-***freeglutapp*** is the non-OOP template, and ***glutapp_template*** is the required template for the Lab 5 submission. Choose to run one at a time, in your terminal, by using command *cd Lab5* followed by *cd freeglutapp* OR *cd glutapp_template*. Then do command *make* followed by *./glutapp*.
+***freeglutapp*** is the non-OOP template, and ***glutapp_template*** is the required template for the Lab 5 submission. Choose to run one at a time, in your terminal, by using command *cd Lab5* followed by *cd freeglutapp* OR *cd glutapp_template*. Then do command *make* followed by *./glutapp*.<br />
 Features:
 * WASD for Movement
 * Spacebar to Shoot
@@ -31,7 +31,7 @@ Features:
 
 Final Project
 -
-The **textures** folder is the given OOP template.
+The **textures** folder is the given OOP template.<br />
 Features:
 * WASD for Movement
 * Moving Animation
@@ -42,4 +42,4 @@ Features:
 * Win or Lose Conditions
 * Spacebar to *Restart Game*
 
-![Game](Screenshot.png)
+![Game](https://github.com/trumanjchan/CSE165_Labs/blob/main/Final_Project/textures/Screenshot.png)
