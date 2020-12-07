@@ -98,7 +98,7 @@ App::App(int argc, char** argv, int width, int height, const char* title): GlutA
     princess = new Sprite("Character_Princess.png", 3,6,  1.4,-0.4,  0.3,0.3);     // filename, rows,cols, x,y, w,h
     mob1 = new Sprite("Slime_Green.png", 6,5,  0.7,-1.3,  0.5,0.5);
     mob2 = new Sprite("Slime_Green.png", 6,5,  0.2,1.3,  0.5,0.5);
-    mob3 = new Sprite("Slime_Green.png", 6,5,  -0.3,-1.3,  0.5,0.5);
+    mob3 = new Sprite("Slime_Green.png", 6,5,  -0.3,-1.3,  0.5,0.5);     //Closest mob to player
 
     mob1Visible = true;
     mob2Visible = true;
@@ -223,7 +223,7 @@ void App::draw() const{
                 gameOver = true;
             }
         }
-        else if ( character->contains(mob1->getX(), mob1->getY() ) || character->contains(mob2->getX(), mob2->getY() ) || character->contains(mob3->getX(), mob3->getY() ) || character->contains(mob3->getX() + 0.2, mob3->getY() ) ) {     //if you touch any slime, you lose.
+        else if ( character->contains(mob1->getX()+0.1, mob1->getY()) || character->contains(mob1->getX() + 0.4, mob1->getY()) || character->contains(mob2->getX()+0.1, mob2->getY() - 0.5) || character->contains(mob2->getX() + 0.4, mob2->getY() - 0.5) || character->contains(mob3->getX()+0.1, mob3->getY()) || character->contains(mob3->getX() + 0.4, mob3->getY()) ) {     //if you touch any slime, you lose.
             youWin = false;
             gameOver = true;
         }
