@@ -246,7 +246,7 @@ void App::draw() const{
     else {
         renderText("Save the princess without killing her, while staying alive!", -0.3, 0.55, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);     //Renders text in white
         renderText("WASD to move, MOUSE1 to Shoot after picking up gun and ammo.", -0.465, 0.45, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
-        renderText("Kill all slimes before advancing forward.", -0.05, 0.35, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
+        renderText("You must kill all slimes before advancing forward.", -0.2, 0.35, GLUT_BITMAP_TIMES_ROMAN_24, 1,1,1);
     }
 
     for (int i = 0; i < projectile.size(); i++) {
